@@ -3,97 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jan Hunkemöller — Im Aufbau</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title>Jan Hunkemöller</title>
     
-    <!-- Sorts Mill Goudy -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!-- Sorts Mill Goudy Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&display=swap" rel="stylesheet">
     
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            /* Authentisches Bleimennige-Rot / Minium */
-            --mennige: #C84323;
-        }
-
-        /* Text-Selektion (Rubrizierung beim Markieren) */
-        ::selection {
-            background-color: transparent;
-            color: var(--mennige);
-        }
-
-        ::-moz-selection {
-            background-color: transparent;
-            color: var(--mennige);
-        }
-
-        body {
-            background-color: #ffffff;
-            color: #000000;
-            font-family: 'Sorts Mill Goudy', serif;
-            font-size: 18px;
-            font-weight: normal;
-            font-style: normal;
-            line-height: 22.15px;
-            -webkit-font-smoothing: antialiased;
-            
-            display: table;
-            width: 100vw;
-            height: 100vh;
-            text-align: center;
-        }
-
-        .container {
-            display: table-cell;
-            vertical-align: middle;
-            padding: 24px;
-        }
-
-        h1 {
-            font-size: 18px;
-            font-weight: normal;
-            line-height: 22.15px;
-            margin-bottom: 22.15px; /* Exakt 1 Zeilenhöhe Abstand nach dem Namen */
-        }
-
-        p {
-            font-size: 18px;
-            line-height: 22.15px;
-            margin-bottom: 0;        /* Kein Abstand unter den Textzeilen */
-        }
-
-        p.status {
-            font-style: italic;
-        }
-
-        /* Link-Styling & Rubrizierung */
-        a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.15s ease;
-            cursor: pointer;
-        }
-
-        a:hover {
-            color: var(--mennige);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>Jan Hunkemöller</h1>
-        <p class="status">Website under construction.</p>
-        <p><a href="mailto:jan@hunkemoeller.name">jan@hunkemoeller.name</a></p>
+    <div class="page-container">
+        <!-- Navigation (Fixiert) -->
+        <nav>
+            <div class="nav-item nav-left">
+                <a href="mailto:jan@hunkemoeller.name">Jan Hunkemöller</a>
+            </div>
+            <div class="nav-item nav-right">
+                <span style="cursor: default;">About</span>
+            </div>
+        </nav>
+
+        <!-- Work-Index als isolierter Vollbild-Container -->
+        <main class="work-index">
+            <!-- Video-Loop (Attend) -->
+            <div class="work-item slide-item active">
+                <div class="media-scroll-wrapper">
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="images/attend.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </main>
     </div>
 
 </body>
