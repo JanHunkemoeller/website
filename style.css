@@ -27,7 +27,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #ffffff;
+    background-color: #000000; /* Auf Schwarz gesetzt für nahtlose Systemleisten auf Mobilgeräten */
     color: #000000;
     font-family: 'Sorts Mill Goudy', serif;
     font-size: 15px;
@@ -42,6 +42,7 @@ body.about-page {
     overflow-y: auto;
     height: auto;
     min-height: 100vh;
+    background-color: #ffffff;
 }
 
 /* Text-Selektion */
@@ -77,6 +78,7 @@ a.active {
     position: relative;
     width: 100vw;
     height: 100vh;
+    background-color: #ffffff; /* Container auf Weiß gehalten */
 }
 
 /* Navigation: Fixiert am oberen Rand, schwebend über den Inhalten */
@@ -87,6 +89,7 @@ a.active {
     line-height: 18.45px;
     white-space: nowrap;
     z-index: 100;
+    color: #000000;
 }
 
 .nav-left {
