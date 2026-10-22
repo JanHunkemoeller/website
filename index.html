@@ -49,21 +49,21 @@
         const video = document.getElementById('sync-video');
 
         if (video) {
-            // Ausführen sobald Videolänge bekannt ist
+            // Sobald die Videolänge bekannt ist, berechnen wir die Zielzeit
             video.addEventListener('loadedmetadata', () => {
                 if (video.duration && !isNaN(video.duration)) {
-                    // Errechnet die verstrichene Position im Loop seit der Epoche
                     video.currentTime = (Date.now() / 1000) % video.duration;
                 }
-                
+            }, { once: true });
+
+            // Erst einblenden, wenn der Browser an die Stelle gesprungen ist
+            video.addEventListener('seeked', () => {
                 video.play().then(() => {
-                    // Nach dem Sprung sanft einblenden
                     video.classList.add('is-ready');
                 }).catch(() => {
-                    // Fallback, falls Autoplay-Policy verzögert
                     video.classList.add('is-ready');
                 });
-            });
+            }, { once: true });
         }
     </script>
 
