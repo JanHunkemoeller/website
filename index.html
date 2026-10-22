@@ -46,26 +46,33 @@
     </div>
 
     <script>
-        const video = document.getElementById('sync-video');
+    const video = document.getElementById('sync-video');
 
-        if (video) {
-            // Sobald die Videolänge bekannt ist, berechnen wir die Zielzeit
-            video.addEventListener('loadedmetadata', () => {
-                if (video.duration && !isNaN(video.duration)) {
-                    video.currentTime = (Date.now() / 1000) % video.duration;
+    if (video) {
+        const applySync = () => {
+            if (video.duration && !isNaN(video.duration)) {
+                const targetTime = (Date.now() / 1000) % video.duration;
+                // Nur springen, wenn die Abweichung größer als 0.3 Sekunden ist
+                if (Math.abs(video.currentTime - targetTime) > 0.3) {
+                    video.currentTime = targetTime;
                 }
-            }, { once: true });
+            }
+        };
 
-            // Erst einblenden, wenn der Browser an die Stelle gesprungen ist
-            video.addEventListener('seeked', () => {
-                video.play().then(() => {
-                    video.classList.add('is-ready');
-                }).catch(() => {
-                    video.classList.add('is-ready');
-                });
-            }, { once: true });
-        }
-    </script>
+        // 1. So früh wie möglich die Zeit setzen
+        video.addEventListener('loadedmetadata', applySync, { once: true });
+
+        // 2. Sobald das Video abgespielt werden kann, erneut abgleichen und einblenden
+        video.addEventListener('canplay', () => {
+            applySync();
+            video.play().then(() => {
+                video.classList.add('is-ready');
+            }).catch(() => {
+                video.classList.add('is-ready');
+            });
+        }, { once: true });
+    }
+</script>
 
 </body>
 </html>
