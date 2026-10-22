@@ -327,3 +327,25 @@ a.active {
         margin-left: 20px;
     }
 }
+
+/* --- Spezifische Anweisungen für die Startseite (index.html) --- */
+body.index-page {
+    background-color: #000000;
+}
+
+body.index-page .page-container {
+    background-color: #000000;
+}
+
+/* Weiße Typografie für die Navigation über schwarzem Grund */
+body.index-page .nav-item {
+    color: #ffffff;
+}
+
+body.index-page .nav-item a {
+    color: #ffffff;
+}
+
+body.index-page .nav-item a:hover {
+    color: var(--mennige);
+}
