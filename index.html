@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="color-scheme" content="dark">
     <meta name="robots" content="noindex, nofollow">
     <title>Jan Hunkemöller</title>
-
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
@@ -16,12 +16,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&display=swap" rel="stylesheet">
-
+    
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="index-page">
 
-    <div class="index-page">
+    <div class="page-container">
         <!-- Navigation (Fixiert) -->
         <nav>
             <div class="nav-item nav-left">
@@ -37,7 +37,7 @@
             <!-- Synchronisierter Video-Loop -->
             <div class="work-item slide-item active">
                 <div class="media-scroll-wrapper">
-                    <video id="sync-video" autoplay loop muted playsinline preload="auto" class="synced-loop">
+                    <video id="sync-video" autoplay loop muted playsinline preload="metadata" class="synced-loop">
                         <source src="images/attend.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -46,56 +46,31 @@
     </div>
 
     <script>
-    (() => {
         const video = document.getElementById('sync-video');
-        if (!video) return;
 
-        const THRESHOLD = 0.25; // Sekunden Toleranz, bevor nachjustiert wird
+        if (video) {
+            const applySync = () => {
+                if (video.duration && !isNaN(video.duration)) {
+                    const targetTime = (Date.now() / 1000) % video.duration;
+                    if (Math.abs(video.currentTime - targetTime) > 0.3) {
+                        video.currentTime = targetTime;
+                    }
+                }
+            };
 
-        const target = () => (Date.now() / 1000) % video.duration;
+            // So früh wie möglich Zeit setzen
+            video.addEventListener('loadedmetadata', applySync, { once: true });
 
-        const sync = (force = false) => {
-            if (!video.duration || isNaN(video.duration) || video.seeking) return;
-
-            const t = target();
-            const d = video.duration;
-
-            // Kreisförmige Differenz, damit der Loop-Übergang kein falscher Sprung ist
-            let diff = video.currentTime - t;
-            diff = ((diff + d / 2) % d + d) % d - d / 2;
-
-            if (force || Math.abs(diff) > THRESHOLD) {
-                video.currentTime = t;
-            }
-            if (video.paused) video.play().catch(() => {});
-        };
-
-        const reveal = () => video.classList.add('is-ready');
-
-        // 1. So früh wie möglich die Zeit setzen
-        video.addEventListener('loadedmetadata', () => sync(true), { once: true });
-
-        // 2. Sobald abspielbar: erneut abgleichen und starten
-        video.addEventListener('canplay', () => {
-            sync(true);
-            video.play().catch(() => {});
-        }, { once: true });
-
-        // 3. Erst einblenden, wenn der Sprung wirklich erfolgt ist
-        video.addEventListener('seeked', reveal, { once: true });
-
-        // Sicherheitsnetz: nach 3 s auf jeden Fall einblenden
-        setTimeout(reveal, 3000);
-
-        // 4. Laufend nachjustieren (gegen Drift und Stocken)
-        setInterval(() => sync(), 2000);
-
-        // 5. Beim Zurückkehren in den Tab sofort abgleichen
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) sync(true);
-        });
-        window.addEventListener('focus', () => sync(true));
-    })();
+            // Abgleich vor dem Abspielen wiederholen und sanft einblenden
+            video.addEventListener('canplay', () => {
+                applySync();
+                video.play().then(() => {
+                    video.classList.add('is-ready');
+                }).catch(() => {
+                    video.classList.add('is-ready');
+                });
+            }, { once: true });
+        }
     </script>
 
 </body>
