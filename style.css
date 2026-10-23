@@ -339,11 +339,11 @@ body.index-page .page-container {
 
 /* Weiße Typografie für die Navigation über schwarzem Grund */
 body.index-page .nav-item {
-    color: #ffffff;
+    color: #000000;
 }
 
 body.index-page .nav-item a {
-    color: #ffffff;
+    color: #000000;
 }
 
 body.index-page .nav-item a:hover {
