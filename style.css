@@ -143,7 +143,7 @@ nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center center;
+    object-position: 70% center; /* Grundausrichtung nach rechts zur Kerze */
     display: block;
 }
 
@@ -155,6 +155,14 @@ nav {
 
 .synced-loop.is-ready {
     opacity: 1;
+}
+
+/* --- Mobile Feinanpassung --- */
+@media (max-width: 768px) {
+    .media-scroll-wrapper video,
+    .media-scroll-wrapper img {
+        object-position: 75% center !important; /* Erzwingt den Kerzen-Fokus auf Smartphones */
+    }
 }
 
 /* --- Spezifische Anweisungen für die Startseite (index.html) --- */
