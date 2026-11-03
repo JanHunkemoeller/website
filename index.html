@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="color-scheme" content="dark">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="index, follow">
     <title>Jan Hunkemöller</title>
     
     <!-- Favicon -->
@@ -22,15 +22,21 @@
 <body class="index-page">
 
     <div class="page-container">
-        <!-- Navigation (Fixiert) -->
+        <!-- Navigation (Fixiert oben) -->
         <nav>
             <div class="nav-item nav-left">
-                <span style="cursor: default;">Jan Hunkemöller</span>
+                <a href="#" id="nav-title">Jan Hunkemöller</a>
             </div>
             <div class="nav-item nav-right">
                 <a href="mailto:jan@hunkemoeller.name">contact</a>
             </div>
         </nav>
+
+        <!-- Ausklappbare Kurzinfo (271px breit) -->
+        <div id="quick-info" class="quick-info-box">
+            <p>(born 1996) is a multidisciplinary artist.</p>
+            <p>He studied at Kunstakademie Düsseldorf under John Morgan and Ed Atkins, and graduated as Meisterschüler of Ed Atkins.</p>
+        </div>
 
         <!-- Work-Index als isolierter Vollbild-Container -->
         <main class="work-index">
@@ -43,9 +49,17 @@
                 </div>
             </div>
         </main>
+
+        <!-- Navigation unten rechts -->
+        <div class="nav-bottom-right">
+            <div class="nav-item">
+                <a href="impressum.html">impressum</a>
+            </div>
+        </div>
     </div>
 
     <script>
+        // --- Video-Synchronisation ---
         const video = document.getElementById('sync-video');
 
         if (video) {
@@ -58,10 +72,8 @@
                 }
             };
 
-            // So früh wie möglich Zeit setzen
             video.addEventListener('loadedmetadata', applySync, { once: true });
 
-            // Abgleich vor dem Abspielen wiederholen und sanft einblenden
             video.addEventListener('canplay', () => {
                 applySync();
                 video.play().then(() => {
@@ -70,6 +82,17 @@
                     video.classList.add('is-ready');
                 });
             }, { once: true });
+        }
+
+        // --- Kurzinfo Toggle ---
+        const navTitle = document.getElementById('nav-title');
+        const quickInfo = document.getElementById('quick-info');
+
+        if (navTitle && quickInfo) {
+            navTitle.addEventListener('click', (e) => {
+                e.preventDefault();
+                quickInfo.classList.toggle('is-visible');
+            });
         }
     </script>
 
