@@ -9,10 +9,8 @@
     <meta name="robots" content="index, follow">
     <title>Jan Hunkemöller</title>
     
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
-    <!-- Sorts Mill Goudy Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&display=swap" rel="stylesheet">
@@ -22,7 +20,6 @@
 <body class="index-page">
 
     <div class="page-container">
-        <!-- Navigation (Fixiert oben) -->
         <nav>
             <div class="nav-item nav-left">
                 <a href="#" id="nav-title">Jan Hunkemöller</a>
@@ -32,25 +29,21 @@
             </div>
         </nav>
 
-        <!-- Ausklappbare Kurzinfo (271px breit) -->
         <div id="quick-info" class="quick-info-box">
             <p>(born 1996) is a multidisciplinary artist.</p>
             <p>He studied at Kunstakademie Düsseldorf under John Morgan and Ed Atkins, and graduated as Meisterschüler of Ed Atkins.</p>
         </div>
 
-        <!-- Work-Index als isolierter Vollbild-Container -->
         <main class="work-index">
-            <!-- Synchronisierter Video-Loop -->
             <div class="work-item slide-item active">
                 <div class="media-scroll-wrapper">
-                    <video id="sync-video" autoplay loop muted playsinline preload="metadata" class="synced-loop">
+                    <video id="sync-video" autoplay loop muted playsinline preload="auto" class="synced-loop">
                         <source src="images/attend.mp4" type="video/mp4">
                     </video>
                 </div>
             </div>
         </main>
 
-        <!-- Navigation unten rechts -->
         <div class="nav-bottom-right">
             <div class="nav-item">
                 <a href="impressum.html">impressum</a>
@@ -59,7 +52,6 @@
     </div>
 
     <script>
-        // --- Video-Synchronisation ---
         const video = document.getElementById('sync-video');
 
         if (video) {
@@ -72,19 +64,18 @@
                 }
             };
 
-            video.addEventListener('loadedmetadata', applySync, { once: true });
-
-            video.addEventListener('canplay', () => {
+            const revealVideo = () => {
                 applySync();
-                video.play().then(() => {
-                    video.classList.add('is-ready');
-                }).catch(() => {
-                    video.classList.add('is-ready');
-                });
-            }, { once: true });
+                video.play().catch(() => {});
+                video.classList.add('is-ready');
+            };
+
+            video.addEventListener('loadeddata', revealVideo, { once: true });
+            video.addEventListener('canplay', revealVideo, { once: true });
+
+            setTimeout(revealVideo, 150);
         }
 
-        // --- Kurzinfo Toggle ---
         const navTitle = document.getElementById('nav-title');
         const quickInfo = document.getElementById('quick-info');
 
