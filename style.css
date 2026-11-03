@@ -1,6 +1,27 @@
-/* --- Globales CSS & Variablen --- */
+/* --- Schrift (selbst gehostet, SIL Open Font License) --- */
+@font-face {
+    font-family: 'Sorts Mill Goudy';
+    src: url('fonts/sorts-mill-goudy-regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* --- Variablen --- */
 :root {
     --mennige: #C84323;
+
+    --font-size: 0.9375rem;      /* 15px */
+    --line-height: 1.23;         /* 18.45px bei 15px */
+    --gap: 1rem;                 /* 16px seitlicher Rand */
+    --nav-top: 0.585rem;         /* 9.36px */
+    /* Nav-Oberkante + eine Zeile (18.45px) + Abstand (18.25px) = 46.06px */
+    --content-top: calc(var(--nav-top) + 1.153125rem + 1.140625rem);
+
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
 }
 
 * {
@@ -9,116 +30,113 @@
     padding: 0;
 }
 
-/* --- Globale Textmarkierung (Selection) --- */
+/* --- Textmarkierung: kein Balken, Text in Mennige --- */
 ::selection {
-    background-color: transparent; /* Kein farbiger Hintergrundbalken */
-    color: var(--mennige);          /* Text färbt sich beim Markieren in Mennige-Rot */
-}
-
-::-moz-selection {
     background-color: transparent;
     color: var(--mennige);
+}
+
+/* --- Basis --- */
+html {
+    font-size: 100%;
 }
 
 html, body {
     width: 100%;
     height: 100%;
+}
+
+body {
     font-family: 'Sorts Mill Goudy', serif;
-    font-size: 15px;
+    font-size: var(--font-size);
     font-weight: normal;
-    line-height: 18.45px;
+    line-height: var(--line-height);
     background-color: #ffffff;
     color: #000000;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Base-Layout Container */
 .page-container {
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     position: relative;
     overflow: hidden;
 }
 
-/* --- Navigation (Oben) --- */
+/* --- Navigation oben --- */
 nav {
     position: fixed;
-    top: 9.36px;
+    top: calc(var(--nav-top) + var(--safe-top));
     left: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 16px;
+    padding: 0 calc(var(--gap) + var(--safe-right)) 0 calc(var(--gap) + var(--safe-left));
     z-index: 100;
 }
 
-.nav-item {
-    font-family: 'Sorts Mill Goudy', serif;
-    font-size: 15px;
-    font-weight: normal;
-    line-height: 18.45px;
-    color: #000000;
-}
-
-.nav-item a {
+.nav-item a,
+.nav-item button {
     color: #000000;
     text-decoration: none;
     transition: color 0.15s ease;
 }
 
-.nav-item a:hover {
-    color: var(--mennige);
+/* Button sieht aus wie ein Link */
+.nav-item button {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
 }
 
-/* --- Navigation (Unten Rechts für Impressum) --- */
+@media (hover: hover) {
+    .nav-item a:hover,
+    .nav-item button:hover,
+    .legal-section a:hover {
+        color: var(--mennige);
+    }
+}
+
+.nav-item a:focus-visible,
+.nav-item button:focus-visible,
+.legal-section a:focus-visible {
+    color: var(--mennige);
+    outline: 1px solid var(--mennige);
+    outline-offset: 2px;
+}
+
+/* --- Navigation unten rechts (Impressum) --- */
 .nav-bottom-right {
-    position: fixed !important;
-    bottom: 9.36px !important;
-    right: 16px !important;
-    top: auto !important;
-    left: auto !important;
+    position: fixed;
+    bottom: calc(var(--nav-top) + var(--safe-bottom));
+    right: calc(var(--gap) + var(--safe-right));
     z-index: 100;
-}
-
-.nav-bottom-right a {
-    color: #000000;
-    text-decoration: none;
-    transition: color 0.15s ease;
-}
-
-.nav-bottom-right a:hover {
-    color: var(--mennige);
 }
 
 /* --- Ausklappbare Kurzinfo (271px breit) --- */
 .quick-info-box {
     display: none;
     position: fixed;
-    top: 46.06px; /* 9.36px (Nav top) + 18.45px (Zeilenhöhe) + 18.25px (Abstand) */
-    left: 16px;   /* Gleicher linker Abstand wie .nav-left */
-    width: 271px;
+    top: calc(var(--content-top) + var(--safe-top));
+    left: calc(var(--gap) + var(--safe-left));
+    width: 16.9375rem;           /* 271px */
+    max-width: calc(100% - 2 * var(--gap));
     z-index: 101;
-    font-family: 'Sorts Mill Goudy', serif;
-    font-size: 15px;
-    font-weight: normal;
-    line-height: 18.45px;
-    color: #000000;
 }
 
 .quick-info-box.is-visible {
     display: block;
 }
 
-.quick-info-box p {
-    margin: 0;
-    padding: 0;
-}
-
-/* --- Vollbild-Medienbereich (Work-Index) --- */
+/* --- Vollbild-Medienbereich --- */
 .work-index {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: relative;
     overflow: hidden;
 }
@@ -143,11 +161,11 @@ nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 70% center; /* Grundausrichtung nach rechts zur Kerze */
+    object-position: 70% center;  /* Fokus nach rechts zur Kerze */
     display: block;
 }
 
-/* Überblendung / Synchronisations-Fade-In */
+/* Einblenden, sobald das Video synchronisiert ist */
 .synced-loop {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
@@ -157,66 +175,67 @@ nav {
     opacity: 1;
 }
 
-/* --- Mobile Feinanpassung --- */
 @media (max-width: 768px) {
     .media-scroll-wrapper video,
     .media-scroll-wrapper img {
-        object-position: 75% center !important; /* Erzwingt den Kerzen-Fokus auf Smartphones */
+        object-position: 75% center;
     }
 }
 
-/* --- Spezifische Anweisungen für die Startseite (index.html) --- */
-body.index-page {
-    background-color: #000000;
-}
-
+/* --- Startseite --- */
+body.index-page,
 body.index-page .page-container {
     background-color: #000000;
 }
 
-body.index-page .nav-item,
-body.index-page .nav-item a,
-body.index-page .nav-bottom-right a {
-    color: #000000;
+/* --- Nur für Screenreader sichtbar --- */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
 }
 
-body.index-page .nav-item a:hover,
-body.index-page .nav-bottom-right a:hover {
-    color: var(--mennige);
+/* --- Impressum --- */
+body.legal-page .page-container {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-y: auto;
 }
 
-/* --- Impressum & Rechtliches (Unterseiten) --- */
 .legal-content {
-    padding: 46.06px 16px 60px 16px;
-    max-width: 600px;
+    padding: calc(var(--content-top) + var(--safe-top))
+             calc(var(--gap) + var(--safe-right))
+             calc(3.75rem + var(--safe-bottom))
+             calc(var(--gap) + var(--safe-left));
+    max-width: 37.5rem;           /* 600px */
 }
 
 .legal-section {
-    margin-bottom: 24px;
+    margin-bottom: 1.5rem;        /* 24px */
+}
+
+.legal-section--spaced {
+    margin-top: 3rem;             /* 48px */
 }
 
 .legal-section h2 {
-    font-family: 'Sorts Mill Goudy', serif;
-    font-size: 15px;
+    font-size: inherit;
     font-weight: normal;
-    line-height: 18.45px;
-    margin: 0 0 6px 0;
+    margin-bottom: 0.375rem;      /* 6px */
 }
 
-.legal-section p {
-    font-family: 'Sorts Mill Goudy', serif;
-    font-size: 15px;
-    font-weight: normal;
-    line-height: 18.45px;
-    margin: 0;
-    color: #000000;
+.legal-section p + p {
+    margin-top: 0.75rem;          /* 12px */
 }
 
 .legal-section a {
     color: #000000;
     text-decoration: none;
-}
-
-.legal-section a:hover {
-    color: var(--mennige);
 }
