@@ -16,7 +16,7 @@
     <link rel="preload" href="fonts/sorts-mill-goudy-regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="style.css">
 
-    <!-- Ohne JavaScript soll das Video trotzdem sichtbar sein -->
+
     <noscript><style>.synced-loop { opacity: 1; }</style></noscript>
 </head>
 <body class="index-page">
@@ -57,7 +57,7 @@
     </div>
 
     <script>
-        // --- Video-Synchronisation (alle Besucher sehen dieselbe Stelle) ---
+
         const video = document.getElementById('sync-video');
 
         if (video) {
@@ -69,11 +69,9 @@
             };
             const reveal = () => video.classList.add('is-ready');
 
-            // Metadaten evtl. schon geladen (Cache), bevor der Listener hängt
             if (video.readyState >= 1) sync();
             else video.addEventListener('loadedmetadata', sync, { once: true });
 
-            // Einmaliger Resync, sobald das Bild wirklich läuft (gleicht Seek-Versatz aus)
             video.addEventListener('playing', sync, { once: true });
 
             const start = () => {
@@ -85,7 +83,6 @@
             else video.addEventListener('canplay', start, { once: true });
         }
 
-        // --- Kurzinfo Toggle ---
         const toggle = document.getElementById('nav-title');
         const info = document.getElementById('quick-info');
 
@@ -94,7 +91,18 @@
                 info.classList.toggle('is-visible', open);
                 toggle.setAttribute('aria-expanded', String(open));
             };
-            toggle.addEventListener('click', () => setOpen(!info.classList.contains('is-visible')));
+
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                setOpen(!info.classList.contains('is-visible'));
+            });
+
+            document.addEventListener('click', (e) => {
+                if (info.classList.contains('is-visible') && !info.contains(e.target) && e.target !== toggle) {
+                    setOpen(false);
+                }
+            });
+
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') setOpen(false);
             });
