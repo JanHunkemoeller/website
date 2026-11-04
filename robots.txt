@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /$
+Disallow: /impressum.html
 Disallow: /1667456portfolio.html
 Disallow: /pdf/
