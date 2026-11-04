@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /$
-Disallow: /portfolio.html
-Disallow: /portfolio/
+Disallow: /1667456portfolio.html
 Disallow: /pdf/
