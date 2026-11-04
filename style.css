@@ -87,18 +87,21 @@ nav {
     cursor: pointer;
 }
 
+/* --- Hover- & Focus-Zustände --- */
 @media (hover: hover) {
     .nav-item a:hover,
     .nav-item button:hover,
+    .nav-bottom-right a:hover,
     .legal-section a:hover {
-        color: var(--mennige);
+        color: var(--mennige) !important;
     }
 }
 
 .nav-item a:focus-visible,
 .nav-item button:focus-visible,
+.nav-bottom-right a:focus-visible,
 .legal-section a:focus-visible {
-    color: var(--mennige);
+    color: var(--mennige) !important;
     outline: 1px solid var(--mennige);
     outline-offset: 2px;
 }
@@ -202,7 +205,6 @@ body.index-page .nav-item a {
     white-space: nowrap;
 }
 
-/* --- Impressum & Rechtliches --- */
 body.legal-page .page-container {
     height: auto;
     min-height: 100vh;
@@ -216,7 +218,7 @@ body.legal-page .page-container {
              calc(var(--gap) + var(--safe-right))
              calc(3.75rem + var(--safe-bottom))
              calc(var(--gap) + var(--safe-left));
-    max-width: 25rem;           /* 600px */
+    max-width: 25rem;           /* 400px */
 }
 
 .legal-section {
