@@ -16,7 +16,6 @@
     <link rel="preload" href="/fonts/sorts-mill-goudy-regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="style.css">
 
-
     <noscript><style>.synced-loop { opacity: 1; }</style></noscript>
 </head>
 <body class="index-page">
@@ -26,8 +25,9 @@
             <div class="nav-item">
                 <button type="button" id="nav-title" aria-expanded="false" aria-controls="quick-info">Jan Hunkemöller</button>
             </div>
-            <div class="nav-item">
-                <a href="mailto:jan@hunkemoeller.name">contact</a>
+            <!-- Contact steht im HTML oben rechts im nav -->
+            <div class="nav-item nav-contact">
+                <a href="mailto:jan@hunkemoeller.name" lang="en">contact</a>
             </div>
         </nav>
 
@@ -57,7 +57,6 @@
     </div>
 
     <script>
-
         const video = document.getElementById('sync-video');
 
         if (video) {
